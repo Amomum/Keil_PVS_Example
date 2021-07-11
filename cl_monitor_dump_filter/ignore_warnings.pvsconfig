@@ -1,0 +1,27 @@
+###### Common warnings
+ 
+# ignore 64-bit warnings
+// -V::4
+ 
+# allow C-style cast for primitive integer types (and void)
+// -V:int:2005
+// -V:char:2005
+// -V:short:2005
+// -V:uint8_t:2005
+// -V:int8_t:2005
+// -V:uint16_t:2005
+// -V:int16_t:2005
+// -V:uint32_t:2005
+// -V:int32_t:2005
+// -V:uint64_t:2005
+// -V:int64_t:2005
+// -V:void:2005
+ 
+# ignore 'The body of the statement should be enclosed in braces'; that doesn't look like a source of errors for us
+// -V::2507 
+
+###### MISRA
+
+# ignore MISRA C++ 6-6-5 'A function should have a single point of exit at the end.'
+# this goes againts our best practises and generally seems outdated
+// -V::2506

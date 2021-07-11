@@ -1,0 +1,51 @@
+#! armcc -E
+; with that we can use C preprocessor 
+ 
+; Настройки в Options->Target больше не работают, потому что используется этот файл
+; Для загрузчика смещение тоже нужно устанавливать здесь
+; Подробнее о перемещении стека и зачем это нужно см. http://wiki.dep111.rtc.local/knowledge:игрища_с_памятью#защита_от_переполнения_стека
+#define RAM_BEGIN        0x20000000
+#define RAM_SIZE_BYTES      (4*1024)
+ 
+#define FLASH_BEGIN       0x8000000
+#define FLASH_SIZE_BYTES   (32*1024)
+
+; В опциях линкера стоит подавление варнинга L6329 и L6314, чтобы не было криков про
+; "Pattern *(.ARM.exidx) only matches removed unused sections."
+
+ 
+; This scatter file places stack before .bss region, so on stack overflow
+; we get HardFault exception immediately
+ 
+LR_IROM1 FLASH_BEGIN FLASH_SIZE_BYTES  {    ; load region size_region
+  ER_IROM1 FLASH_BEGIN FLASH_SIZE_BYTES  {  ; load address = execution address
+    *.o (RESET, +First)
+    *(InRoot$$Sections)
+     
+    ; Sections ".ARM.exidx" and ".init_array" sometimes 
+    ; must be placed explicitly,
+    ; otherwise it is shared between two regions, and
+    ; the linker is unable to decide where to place it.
+    * (.ARM.exidx) ; эта секция появляется, если разрешить exceptions
+    
+    *(.init_array) ; а эта как-то связана со статическими объектами, 
+                   ; но непонятно, почему ее не всегда надо размещать руками
+     
+    .ANY (+RO)
+  }
+ 
+  ; Stack region growing down
+  REGION_STACK RAM_BEGIN {
+    *(STACK)
+  }
+ 
+  ; We have to define heap region, even if we don't actually use heap
+  REGION_HEAP ImageLimit(REGION_STACK) {
+    *(HEAP)
+  }
+ 
+  ; this will place .bss region above the stack and heap and allocate RAM that is left for it
+  RW_IRAM1 ImageLimit(REGION_HEAP) (RAM_SIZE_BYTES - ImageLength(REGION_STACK) - ImageLength(REGION_HEAP))  {  
+    *(+RW +ZI)
+  }
+}
