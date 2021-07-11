@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- Import settings (mostly exclude paths) from global settings -->
+  <AutoSettingsImport>true</AutoSettingsImport>
+  <PathMasks>
+    <!-- Exclude this paths from analysis -->
+    <string>\cmsis\</string>
+    <string>\spl\</string>
+    <string>\mcu_support_package\</string>
+  </PathMasks>
+  <!-- Disable 64-bit errors -->
+  <Disable64BitAnalysis>true</Disable64BitAnalysis>
+</ApplicationSettings>
