@@ -1,4 +1,4 @@
-## This repo contains two examples PVS-Integration in Keil uVision IDE.
+## This repo contains two examples for PVS-Integration in Keil uVision IDE.
 
 They both relies on availability of some kind of `bash` in Windows (i.e. MSYS or WSL).
 `semi_manual` requires a bit more handiwork; `cl_monitor_dump_filter` is more handy but relies on external tool.
