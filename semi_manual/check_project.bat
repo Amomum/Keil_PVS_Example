@@ -1,18 +1,18 @@
 @echo off
 
-rem enforce this codepage so cmd errors would be readable in keil
+REM enforce this codepage so cmd errors would be readable in Keil
 chcp 20127 >NUL 2>NUL
 
-rem Ётот батник нужен просто потому, что  ейл не умеет запускать .sh напр€мую
-rem >NUL 2>NUL это затыкание вывода, чтобы не засор€ть лог билда
-rem если у вас несколько башей, установите переменную окружени€ %GIT_BASH_PATH% и не забудьте \ на конце
+REM I have to use .bat-file cause Keil can't directly call shell-script
+REM if you have several bashes, please set env. variable GIT_BASH_PATH with a \ at the end
+REM or, if you have one bash, you can add it in the PATH
 
 "%GIT_BASH_PATH%bash.exe" --login "%~dp0\check_project.sh"  || goto :error
 
 
 goto :EOF
 
-rem ѕроизошла ошибка - выводим текст и падаем
+
 :error
     echo --------------------
     echo "Error has occured when running check_project.bat!"

@@ -1,8 +1,8 @@
 @echo off
 echo "##################### PVS Studio Analysis: #####################"
 
-rem Codepage 65001 or 866 breaks PVS
-rem But codepage 20127 works
+REM Codepage 65001 or 866 breaks PVS
+REM But codepage 20127 works
 
 chcp 20127 >NUL 2>NUL
 
